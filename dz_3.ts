@@ -48,5 +48,3 @@ function httpWork(request: httpRequest): httpResponce {
 
 // Init function
 console.log( httpWork(requestData) );
-
-// 
