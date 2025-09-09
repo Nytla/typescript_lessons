@@ -217,4 +217,87 @@ function sendAuth(method, url) {
 }
 let method = 'POST';
 sendAuth(method, 'https://api.example.com/data');
+let user1 = {
+    id: 1,
+    name: 'Alice',
+    email: 'test@gmail.com',
+    isActive: true,
+    skills: ['JavaScript', 'TypeScript', 'React']
+};
+let user2 = {
+    id: 2,
+    name: 'Bob',
+    email: 'test2@gmail.com',
+    isActive: false,
+    skills: ['Python', 'Django'],
+    UserRoleId: 101,
+};
+let user3 = {
+    UserRoleId: 202,
+};
+;
+;
+let userInterface = {
+    id: 3,
+    name: 'Charlie',
+    email: 'test3@gmail.com',
+    isActive: true,
+    skills: ['Java', 'Spring'],
+    getFullName() {
+        return this.name;
+    },
+    UserRoleId: 303,
+    getYearOfBirth(id, url) {
+        return `Year of birth for user with ID ${id} from ${url} is 1990`;
+    },
+    createAt: 'Testing',
+    createDate: new Date(),
+};
+let myDictionary = {
+    apples: 5,
+    bananas: 10,
+    oranges: 7
+};
+console.log(myDictionary.apples); // Output: 5
+console.log(myDictionary['bananas']); // Output: 10
+let userFour = {
+    id: 7,
+    name: 'Test name'
+};
+let user6 = {
+    login: 'Testing',
+    password: '234fetr',
+    phone: '',
+};
+// Example Optional in functions
+function multiply(first, second) {
+    if (!second) {
+        return first * first;
+    }
+    return first * second;
+}
+// Example Default params in function
+function multiplyDef(first = 10, second = 5) {
+    return first * second;
+}
+console.log(multiplyDef());
+console.log(multiplyDef(5, 20));
+function CheckPass(user) {
+    const getPassType = user.password?.type;
+    if (getPassType !== undefined) {
+        return getPassType;
+    }
+    else {
+        return 'Sorry';
+    }
+}
+// Example usage operator '!' inside with var
+function CheckSomeData(user) {
+    const getPass = user.password.type;
+    return getPass;
+}
+// Example check null and undefined
+function testing(paarm) {
+    const test = paarm ?? multiplyDef();
+}
 //# sourceMappingURL=app.js.map
