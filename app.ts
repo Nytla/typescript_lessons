@@ -305,3 +305,126 @@ let user2: UserWithRole = {
 let user3: UserWithRoleTwo = {
     UserRoleId: 202,
 };
+
+//Example of Interface
+interface IUser {
+    id: number;
+    name: string;
+    email: string;
+    isActive: boolean;
+    skills: string[];
+    getFullName?(): string; // Optional method
+    getYearOfBirth: (id: number, url: string) => string;
+};
+
+interface IUserRole {
+    UserRoleId: number;
+}
+
+interface IUserWithRole extends IUser, IUserRole {
+    createAt: string;
+    createDate: Date;
+};
+
+let userInterface: IUserWithRole = {
+    id: 3,
+    name: 'Charlie',
+    email: 'test3@gmail.com',
+    isActive: true,
+    skills: ['Java', 'Spring'],
+    getFullName(): string {
+        return this.name;
+    },
+    UserRoleId: 303,
+    getYearOfBirth(id: number, url: string): string {
+        return `Year of birth for user with ID ${id} from ${url} is 1990`;
+    },
+    createAt: 'Testing',
+    createDate: new Date(),
+}
+
+// Example of using the interface dictionary
+interface StringNumberDictionary {
+    [key: string]: number;
+}
+
+let myDictionary: StringNumberDictionary = {
+    apples: 5,
+    bananas: 10,
+    oranges: 7
+};
+
+console.log(myDictionary.apples); // Output: 5
+console.log(myDictionary['bananas']); // Output: 10
+
+//Example of usage double interface
+interface User4 {
+    id: number;
+}
+
+interface User4 { // Bad usage interface
+    name: string;
+}
+
+let userFour: User4 = {
+    id: 7,
+    name: 'Test name'
+}
+
+// Example usage optional
+interface User5 {
+    login: string,
+    password: string,
+    email?: string,
+    phone: string | undefined
+}
+
+let user6: User5 = {
+    login: 'Testing',
+    password: '234fetr',
+    phone: '',
+}
+
+// Example Optional in functions
+function multiply(first: number, second?: number) :number {
+    if (!second) {
+        return first * first;
+    }
+    return first * second;
+}
+
+// Example Default params in function
+function multiplyDef(first: number = 10, second: number = 5) :number {
+    return first * second;
+}
+
+console.log(multiplyDef());
+console.log(multiplyDef(5,20));
+
+// Exapmle Interface and Type
+interface UserPro {
+    login: string,
+    password?: {
+        type: 'primary' | 'secondary'
+    }
+}
+
+function CheckPass(user: UserPro) :string {
+    const getPassType = user.password?.type;
+    if (getPassType !== undefined) {
+        return getPassType;
+    } else {
+        return 'Sorry';
+    }
+}
+
+// Example usage operator '!' inside with var
+function CheckSomeData(user: UserPro) :string {
+    const getPass = user.password!.type;
+    return getPass;
+}
+
+// Example check null and undefined
+function testing(paarm: string) {
+    const test = paarm ?? multiplyDef();
+}
