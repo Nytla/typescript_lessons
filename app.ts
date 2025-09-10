@@ -428,3 +428,56 @@ function CheckSomeData(user: UserPro) :string {
 function testing(paarm: string) {
     const test = paarm ?? multiplyDef();
 }
+
+// Example VOID
+function logsId(id: string | number): void {
+    console.log('THis is id '+id);
+}
+
+let get_log = logsId(777);
+
+console.log(get_log);
+
+// Example with func
+type voidFunc = () => void;
+
+const f1: voidFunc = () => {
+    console.log('Function f1 executed');
+};
+
+// Example with array
+const skills = ['dev', 'php', 'js'];
+
+const user9 = {
+    sergey: ['node']
+}
+
+skills.forEach((skill) => user9.sergey.push(skill), console.log(skills));
+
+// Example for UNKNOWN type
+let input: unknown;
+
+input = 111_222_333;
+input = 'THis is test';
+input = [1,'Whhops'];
+
+function run(a: unknown) {
+    if (typeof a == "number") {
+        a + 1;
+    } else {
+        console.log(a);
+    }
+}
+
+run(input);
+
+// Check Unknown Error
+async function getData() {
+    try {
+        await fetch('');
+    } catch (error) {
+        if (error instanceof Error) {
+            console.log(error.message);
+        }
+    }
+}

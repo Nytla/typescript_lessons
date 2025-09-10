@@ -300,4 +300,44 @@ function CheckSomeData(user) {
 function testing(paarm) {
     const test = paarm ?? multiplyDef();
 }
+// Example VOID
+function logsId(id) {
+    console.log('THis is id ' + id);
+}
+let get_log = logsId(777);
+console.log(get_log);
+const f1 = () => {
+    console.log('Function f1 executed');
+};
+// Example with array
+const skills = ['dev', 'php', 'js'];
+const user9 = {
+    sergey: ['node']
+};
+skills.forEach((skill) => user9.sergey.push(skill), console.log(skills));
+// Example for UNKNOWN type
+let input;
+input = 111_222_333;
+input = 'THis is test';
+input = [1, 'Whhops'];
+function run(a) {
+    if (typeof a == "number") {
+        a + 1;
+    }
+    else {
+        console.log(a);
+    }
+}
+run(input);
+// Check Unknown Error
+async function getData() {
+    try {
+        await fetch('');
+    }
+    catch (error) {
+        if (error instanceof Error) {
+            console.log(error.message);
+        }
+    }
+}
 //# sourceMappingURL=app.js.map

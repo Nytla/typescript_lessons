@@ -9,22 +9,22 @@ let requestData = {
 // Set data for responce
 function httpWork(request) {
     console.log(request);
-    // return {
-    //     "status": "success",
-    //     "data": {
-    //         "databaseId": 37,
-    //         "sum": 10000,
-    //         "from": 2,
-    //         "to": 4
-    //     }
-    // };
     return {
-        "status": "failed",
+        "status": "success",
         "data": {
-            "errorMessage": "Недостаточно средств",
-            "errorCode": 4
+            "databaseId": 37,
+            "sum": 10000,
+            "from": 2,
+            "to": 4
         }
     };
+    // return {
+    //     "status": "failed",
+    //     "data": {
+    //         "errorMessage": "Недостаточно средств",
+    //         "errorCode": 4
+    //     }
+    // };
 }
 // Init function
 console.log(httpWork(requestData));
