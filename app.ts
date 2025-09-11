@@ -481,3 +481,130 @@ async function getData() {
         }
     }
 }
+
+// Example with type NEVER
+function generateError(message: string): never {
+    throw new Error(message);
+}
+
+function dumpError(): never {
+    // return ''; This is ERROR for never function
+    while(true) {}
+}
+
+function recursion(): never {
+    return recursion();
+}
+
+function isString(x: string | number): boolean {
+    if (typeof x === 'string') {
+        return true;
+    } else if (typeof x === 'number') {
+        return false;
+    }
+    generateError('This is error');
+}
+
+// Example for type NULL
+const n1: null = null;
+const n2: any = null;
+// const n3: number = null; // Wrong
+// const n4: string = null; // Wrong
+// const n5: boolean = null; // Wrong
+// const n6: undefined = null; // Wrong
+
+interface User11 {
+    name: string
+}
+
+function getUser() {
+    if (Math.random() >  0.5) {
+        return null;
+    } else {
+        return {
+            name: 'Vasya'
+        } as User11
+    }
+}
+
+const getUser11 = getUser();
+const getUser12 = getUser11?.name;
+if (getUser11!==null) {
+    const getUser13 = getUser11.name;
+}
+
+// Exapmle Converting Types 
+let a1 = 5;
+let a2: string = a1.toString();
+
+let b1 = 'Test string';
+let b2: number = parseInt(b1);
+
+interface User14 {
+    name: string;
+    email: string;
+    login: string;
+}
+
+let user15: User14 = {
+    name: 'Vasya',
+    email: 'vasya@gmail.com',
+    login: 'vasya'
+}
+
+let user16 = {
+    name: 'Vasya',
+    email: 'vasya@gmail.com',
+    login: 'vasya'
+} as User14
+
+// let user17 = <User14> { // No Recomend 
+//     name: 'Vasya',
+//     email: 'vasya@gmail.com',
+//     login: 'vasya'
+// }
+
+// Example Type Guard 
+function isStringNumber(x: string | number) {
+    if (typeof x === 'string') {
+        console.log(x); // Only string
+    } else if (typeof x === 'number') {
+        console.log(x); // Only number
+    }
+    console.log(x); // string | number
+}
+
+function isString1(x: string | number): x is string {
+    return typeof x === 'string';
+}
+
+console.log('Is this string: ' + isString1('Abcdf'));
+console.log('Is this string: ' + isString1(10));
+
+interface User15 {
+    name: string;
+    email: string;
+    login: string;
+}
+
+interface Admin15 {
+    name: string;
+    role: number;
+}
+
+function isAdmin(user: User15 | Admin15): user is Admin15 {
+    return 'role' in user;
+}
+
+function isAdminAleternative(user: User15 | Admin15): user is Admin15 {
+    return (user as Admin15).role !== undefined;
+}
+
+function SetRole(user: User15 | Admin15) { // This is not be async
+    if (isAdmin(user)) {
+        user.name = 'Vasya';
+        user.role = 0;
+    } else {
+        throw new Error('This user is not admin' + user.name + '-' + user.email + '-' + user.login);
+    }
+}

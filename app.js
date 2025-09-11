@@ -340,4 +340,92 @@ async function getData() {
         }
     }
 }
+// Example with type NEVER
+function generateError(message) {
+    throw new Error(message);
+}
+function dumpError() {
+    // return ''; This is ERROR for never function
+    while (true) { }
+}
+function recursion() {
+    return recursion();
+}
+function isString(x) {
+    if (typeof x === 'string') {
+        return true;
+    }
+    else if (typeof x === 'number') {
+        return false;
+    }
+    generateError('This is error');
+}
+// Example for type NULL
+const n1 = null;
+const n2 = null;
+function getUser() {
+    if (Math.random() > 0.5) {
+        return null;
+    }
+    else {
+        return {
+            name: 'Vasya'
+        };
+    }
+}
+const getUser11 = getUser();
+const getUser12 = getUser11?.name;
+if (getUser11 !== null) {
+    const getUser13 = getUser11.name;
+}
+// Exapmle Converting Types 
+let a1 = 5;
+let a2 = a1.toString();
+let b1 = 'Test string';
+let b2 = parseInt(b1);
+let user15 = {
+    name: 'Vasya',
+    email: 'vasya@gmail.com',
+    login: 'vasya'
+};
+let user16 = {
+    name: 'Vasya',
+    email: 'vasya@gmail.com',
+    login: 'vasya'
+};
+// let user17 = <User14> { // No Recomend 
+//     name: 'Vasya',
+//     email: 'vasya@gmail.com',
+//     login: 'vasya'
+// }
+// Example Type Guard 
+function isStringNumber(x) {
+    if (typeof x === 'string') {
+        console.log(x); // Only string
+    }
+    else if (typeof x === 'number') {
+        console.log(x); // Only number
+    }
+    console.log(x); // string | number
+}
+function isString1(x) {
+    return typeof x === 'string';
+}
+console.log('Is this string: ' + isString1('Abcdf'));
+console.log('Is this string: ' + isString1(10));
+function isAdmin(user) {
+    return 'role' in user;
+}
+function isAdminAleternative(user) {
+    return user.role !== undefined;
+}
+function SetRole(user) {
+    if (isAdmin(user)) {
+        user.name = 'Vasya';
+        user.role = 0;
+    }
+    else {
+        throw new Error('This user is not admin' + user.name + '-' + user.email + '-' + user.login);
+    }
+}
 //# sourceMappingURL=app.js.map
