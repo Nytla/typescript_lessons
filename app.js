@@ -428,4 +428,204 @@ function SetRole(user) {
         throw new Error('This user is not admin' + user.name + '-' + user.email + '-' + user.login);
     }
 }
+/** CLASSES */
+// Create Class
+class User1 {
+    // Prorerties
+    name;
+    constructor(param) {
+        this.name = param;
+    }
+}
+// Init class
+const get_user = new User1('Vasya');
+console.log(get_user.name);
+get_user.name = 'Petya';
+console.log(get_user.name);
+// Class Admin
+class Admin {
+    // Prorerties
+    role;
+}
+const admin = new Admin();
+admin.role = 1;
+console.log(admin.role);
+// User class with 3 consructors
+class User22 {
+    name = '';
+    age = 0;
+    constructor(AgeOrName) {
+        if (typeof AgeOrName === 'string') {
+            this.name = AgeOrName;
+        }
+        else if (typeof AgeOrName === 'number') {
+            this.age = AgeOrName;
+        }
+    }
+}
+const get_user_2 = new User22(123);
+const get_user_3 = new User22();
+const get_user_4 = new User22(777);
+// Class with METHODS
+const PaymentStatus = {
+    Holded: 'Holded',
+    Processed: 'Processed',
+    Reserved: 'Reserved'
+};
+class Payment {
+    id;
+    status;
+    createdAd;
+    updateAd;
+    constructor(id) {
+        this.id = id;
+        this.createdAd = new Date();
+        this.updateAd = new Date();
+        this.status = PaymentStatus.Holded;
+    }
+    getPaymentLifeTime() {
+        return new Date().getTime() - this.createdAd.getTime();
+    }
+    unholdPayment() {
+        if (this.status == PaymentStatus.Processed) {
+            throw new Error('Payment not has been Reserved');
+        }
+        this.status = PaymentStatus.Reserved;
+        this.updateAd = new Date();
+    }
+}
+const get_payment = new Payment(1);
+get_payment.unholdPayment();
+console.log(get_payment);
+const get_time = get_payment.getPaymentLifeTime();
+console.log(get_time);
+// Class with GETTER and SETTER
+class User33 {
+    _login = '';
+    _password = '';
+    _createdAt = Date;
+    // This is setter (no async)
+    set login(l) {
+        this._login = 'user-' + l;
+    }
+    // This is getter (no async)
+    get login() {
+        return this._login;
+    }
+}
+const set_user = new User33();
+set_user.login = 'Igor';
+console.log(set_user);
+console.log(set_user.login);
+class Logger {
+    log(...args) {
+        console.log(...args);
+    }
+    error(...args) {
+        console.log(...args);
+    }
+}
+class Payable {
+    pay(paymentId) {
+        // code...
+    }
+    ;
+    delete() {
+        // code...
+    }
+}
+class Payments {
+    id;
+    status = 'new';
+    constructor(id) {
+        this.id = id;
+    }
+    pay() {
+        this.status = 'paid';
+    }
+}
+class PaymentsSister extends Payments {
+    databaseId = 1;
+    paidAt = new Date();
+    constructor() {
+        const id = Math.random();
+        super(id);
+    }
+    save() { }
+    pay(date) {
+        // super.pay();
+        if (date) {
+            this.status = 'paid';
+            this.paidAt = date;
+        }
+    }
+}
+// Example how setup first and second with extends
+class User44 {
+    name = 'UserLogin';
+    constructor() {
+        console.log(this.name);
+    }
+}
+class Admin44 extends User44 {
+    name = 'AdminLogin';
+    constructor() {
+        super();
+        console.log(this.name);
+    }
+}
+new Admin44;
+// Example with error code
+class HttpError extends Error {
+    code;
+    constructor(text, code) {
+        super(text);
+        this.code = code ?? 500;
+    }
+}
+// Example COMPOSITION
+class User55 {
+    _name = 'User-test';
+}
+class Payment1 {
+    _date = new Date();
+}
+class UserWithPayment {
+    _user;
+    _payment;
+    constructor(user, payment) {
+        this._user = user;
+        this._payment = payment;
+    }
+    ;
+}
+// Example PUBLIC and PRIVATE modificators
+class Vehicle {
+    _make = '';
+    _damages = [];
+    _model = '';
+    _run = 0;
+    #price = 0; // This is equals PRIVATE
+    set model(m) {
+        this._model = m;
+        this.#price = 1;
+    }
+    get model() {
+        return this._model;
+    }
+    addDamege(damege) {
+        this._damages.push(damege);
+    }
+}
+new Vehicle()._make;
+// new Vehicle()._damages; // Error because this is private
+new Vehicle().addDamege('Crash');
+class EuroTrack extends Vehicle {
+    setRun(km) {
+        this._run = km / 0.73;
+        // this._damages = ''; // No set because this is private
+    }
+}
+new EuroTrack().setRun(120_000);
+// new EuroTrack()._run; // Error because _run is protected
 //# sourceMappingURL=app.js.map

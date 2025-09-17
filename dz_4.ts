@@ -12,16 +12,16 @@ interface httpResponce {
 }
 
 // Set type guard for out payment
-function checkStatusRequest(res: httpResponce) {
+function checkStatusRequest(res: httpResponce): void {
     if (res.status === "success") {
-        console.log('This is databaseId: '+res.data.databaseId);
+        console.log('This is databaseId: ' + res.data.databaseId);
     } else if (res.status === "failed") {
         throw new Error('This is error: ' + res.data.errorMessage);
     }
 }
 
 // Set data for responce
-const dataSuccess: httpResponce = {
+let dataSuccess: httpResponce = {
     status: "success",
     data: {
         databaseId: 37,
