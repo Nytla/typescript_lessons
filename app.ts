@@ -875,3 +875,109 @@ class EuroTrack extends Vehicle {
 
 new EuroTrack().setRun(120_000);
 // new EuroTrack()._run; // Error because _run is protected
+
+// Example STATIC Methods and Properties
+class UserService {
+    private static db: any;
+    
+    static getUser(id: number) {
+        return UserService.db;
+    }
+
+
+    create() {
+        UserService.db;
+    }
+
+    static() {
+        UserService.db = 'Connect'; // Run when init static methods
+    }
+}
+
+UserService.getUser(123);
+const inst = new UserService();
+inst.create();
+
+// Example Arrow Functions (methods) and run functions inside object
+class Payment2 {
+    private date: Date = new Date();
+
+    // getDate(this: Payment2){
+    getDate(){
+        return this.date;
+    }
+
+    getDataArrow = () => {
+        return this.date;
+    }
+}
+
+const payment = new Payment2();
+
+const setUser = {
+    id: 357,
+    paymentDate: payment.getDate,
+    paymentDateTwo: payment.getDate.bind(payment),
+    paymentDateArrow: payment.getDataArrow(),
+
+}
+
+console.log(payment.getDate()); // Work
+console.log(setUser.paymentDate()); // undefined because object payment no found
+console.log(setUser.paymentDateTwo()); // WorK
+console.log(setUser.paymentDateArrow); // WorK
+
+// Example THIS typosition
+class UserBuilder {
+    _name: string = '';
+
+    setName(name: string): this {
+        this._name = name;
+        return this;
+    }
+
+    setTwoName(name: string): UserBuilder {
+        this._name = name;
+        return this;
+    }
+
+    isAdmin(): this is AdminBuilder {
+        return this instanceof AdminBuilder;
+    }
+}
+
+class AdminBuilder extends UserBuilder {
+    _role: string[] = [];
+}
+
+const res = new UserBuilder().setName('Petya 1'); // instanceof UserBuilder
+const res2 = new AdminBuilder().setName('Petya 2'); // instanceof AdminBuilder
+const res3 = new AdminBuilder().setTwoName('Petya 3'); // instanceof UserBuilder
+
+let user19: UserBuilder | AdminBuilder = new UserBuilder();
+
+if (user19.isAdmin()) {
+    console.log(user19);
+} else {
+    console.log(user19);
+}
+
+// EXAPMLE ABSTACT CLASS
+abstract class Controller {
+    abstract handle(req: any): void;
+    
+    handleWithLogs(req: any) {
+        console.log('START');
+        this.handle(req);
+        console.log('FINISH');
+    }
+}
+
+class UserController extends Controller {
+    handle(req: any): void {
+        console.log(req)
+    }
+}
+
+const u_c = new UserController();
+u_c.handleWithLogs('REQUEST');
