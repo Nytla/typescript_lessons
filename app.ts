@@ -981,3 +981,19 @@ class UserController extends Controller {
 
 const u_c = new UserController();
 u_c.handleWithLogs('REQUEST');
+
+// EXAMPLE GENERICS
+const num: Array<number> = [1, 5, 100];
+
+async function getDatas(params: number) {
+    return await new Promise<number>((resolve, reject) =>{
+        resolve(1);
+    })
+};
+
+const checkMashine: Record<string, boolean> = {
+    drive: true,
+    wheele: true,
+    akpp: false,
+    kpp: true
+}
