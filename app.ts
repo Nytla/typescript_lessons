@@ -847,11 +847,11 @@ class Vehicle {
     private _damages: string[] = [];
     private _model: string = '';
     protected _run: number = 0;
-    #price: number = 0; // This is equals PRIVATE
+    // #price: number = 0; // This is equals PRIVATE
 
     set model(m: string) {
         this._model = m;
-        this.#price = 1;
+        // this.#price = 1;
     }
 
     get model() {
@@ -986,9 +986,9 @@ u_c.handleWithLogs('REQUEST');
 const num: Array<number> = [1, 5, 100];
 
 async function getDatas(params: number) {
-    return await new Promise<number>((resolve, reject) =>{
-        resolve(1);
-    })
+    // return await new Promise<number>((resolve, reject) =>{
+    //     resolve(1);
+    // })
 };
 
 const checkMashine: Record<string, boolean> = {
@@ -997,3 +997,411 @@ const checkMashine: Record<string, boolean> = {
     akpp: false,
     kpp: true
 }
+
+// Example function with GENERICS
+// function logMiddleware<TYPE>(data: TYPE): TYPE { // equals GENERIC T
+// function logMiddleware<Y>(data: Y): Y { // equals GENERIC T
+function logMiddleware<T>(data: T): T {
+    // console.log(data);
+    return data;
+}
+
+const res4 = logMiddleware<number>(100); // VALIDATE <>
+const res5 = logMiddleware<string>('trgfbvc'); // VALIDATE <>
+const res6 = logMiddleware([684,56,2]); // NO VALIDATE
+const res7 = logMiddleware(['a','x',2,43]); // NO VALIDATE
+const res8 = logMiddleware<object>({a: 321}); // VALIDATE <>
+
+// Example function with GENERICS 2
+function getSplitHalf<T>(data: Array<T>): Array<T> {
+    let split_half = data.length / 2;
+    return data.splice(0, split_half);
+}
+
+console.log(
+    getSplitHalf<number>([10,30,50,70,100,200])
+);
+
+// EXAMPLE GENERICS USE TYPEs
+const split1: <T>(data: Array<T>) => Array<T> = getSplitHalf; // Set Type for function getSplitHalf
+const split2: <Y>(data: Array<Y>) => Array<Y> = getSplitHalf; // Equals split1
+
+// EXAMPLE GENERICS USE TYPEs with functions
+type LogLineType<T> = {
+    timeStamp: Date;
+    data: T;
+}
+
+// let logLine: LogLineType<object> = {
+let logLine1: LogLineType<{a:number}> = {
+    timeStamp: new Date(),
+    data: {
+        a: 1
+    }
+}
+
+// EXAMPLE GENERICS USE INTERFACE with functions
+interface ILogLine<T> {
+    timeStamp: Date;
+    data: T;
+}
+
+// let logLine: ILogLine<object> = {
+let logLine2: ILogLine<{a:number}> = {
+    timeStamp: new Date(),
+    data: {
+        a: 1
+    }
+}
+
+// EXAMPLE GENERICS EXTENDS
+class Vehicle2 {
+    run: number = 0;
+}
+
+function kmToMiles<T extends Vehicle2>(vehicle: T): T {
+    vehicle.run = vehicle.run / 0.62;
+    return vehicle;
+}
+
+class LCV extends Vehicle2 {
+    capacity: number = 0;
+}
+
+let vehicle = kmToMiles(new Vehicle2());
+let lcv = kmToMiles(new LCV());
+kmToMiles({ run: 100});
+
+// EXAMPLE GENERICS CLASSES
+class Resp<D, E> {
+    _data?: D;
+    _error?: E;
+
+    constructor(data: D, error: E) {
+        if (data) {
+            this._data = data;
+        }
+        if (error) {
+            this._error = error;
+        }
+    }
+}
+
+let res1 = new Resp<string, number>('Some data', 404);
+
+class HTTPRes extends Resp<string, number> {
+    _code: number = 0;
+
+    setCode(code: number) {
+        this._code = code;
+    }
+}
+
+let res9 = new HTTPRes('text', 10);
+
+// EXAMPLE MIXINS
+// type Constructor = new (...args: any[]) => {};
+type GConstructor<T = {}> = new (...args: any[]) => T;
+
+class List {
+    items: string[] = [];
+    // constructor(public items: string[]) {};
+}
+
+type ListType = GConstructor<List>;
+
+class ExtendedListClass extends List {
+    first(items: string[]): string | undefined {
+        // return items[0];
+        return items[0] + ' --- ' + items[1];
+    }
+}
+
+let list = new ExtendedListClass();
+let res10 = list.first(['One_','Two_','Three_'])
+console.log(res10);
+
+function ExtendedList<TBase extends ListType>(Base: TBase) {
+    return class ExtendedList extends Base {
+        first(items: string[]) {
+            return items[0] + ' +++ ' + items[1];
+        }
+    }
+}
+
+let list1 = ExtendedList(List);
+// let res11 = new list1(['First_','Seconf_','Third_']);
+let res11 = new list1();
+let res12 = res11.first(['First_','Second_','Third_'])
+console.log(res12);
+
+// EXAMPLE KEYOF
+interface IUser1 {
+    name: string;
+    age: number;
+    sister: boolean;
+}
+
+type KeyOfUser = keyof IUser;
+
+function getValue<T, K extends keyof T>(obj: T, key: K): any {
+    return obj[key]; 
+}
+
+let set_user1: IUser1 = {
+    name: 'Petya',
+    age: 17,
+    sister: true
+}
+
+let getUserName = getValue(set_user1,'age');
+console.log(getUserName);
+
+// EXAMPLE TYPEOF
+let strOrNum: string | number;
+
+if (Math.random() > 0.5) {
+    strOrNum = 5;
+} else {
+    strOrNum = 'ABC';
+}
+
+console.log(strOrNum);
+
+if (typeof strOrNum === 'string') {
+    console.log(strOrNum);
+} else {
+    console.log(strOrNum);
+}
+
+let str2OrNum: typeof strOrNum;
+
+const user21 = {
+    name: 'Petya'
+}
+
+type KeyOfUser1 = keyof typeof user21;
+
+
+// enum Direction1 {
+//     Up,
+//     Dowm
+// };
+
+// type direc = keyof typeof Direction1;
+
+// EXAMPLE INDEXES ACCESS
+interface IRole {
+    name: string;    
+}
+
+interface IUser2 {
+    name: string;
+    roles: IRole[];
+}
+
+const get_user5: IUser2 = {
+    name: 'Vasya',
+    roles: []
+}
+
+const get_user_name = get_user5['name'];
+const get_user_role = get_user5['roles'];
+const get_roles_name: 'roles' = 'roles';
+type roleType = IUser2['roles'];
+type roleType2 = IUser2[typeof get_roles_name];
+console.log(get_user_name);
+console.log(get_user_role);
+
+const set_roles = ['admin', 'user', 'super-user'] as const;
+type roleTypes = typeof  set_roles[number];
+console.log(set_roles);
+
+// EXAMPLE Conditionals Type
+interface HTTPResponce<T extends 'success' | 'failed'> {
+    code: number;
+    data: T extends 'success' ? string : Error;
+}
+
+const succ: HTTPResponce<'success'> = {
+    code: 200,
+    data: 'DONE'
+}
+
+const err: HTTPResponce<'failed'> = {
+    code: 404,
+    data: new Error('This is error 404')
+}
+
+// EXAMPLE - Partial, Required, Readonly
+interface IUser5 {
+    name: string;
+    age?: number;
+    email: string;
+}
+
+type part = Partial<IUser5>;
+type requir = Required<IUser5>;
+type read = Readonly<IUser5>;
+type RequiredAndReadonly = Required<Readonly<IUser5>>;
+
+// EXAMPLE - Pick, Omit, Extract, Exclude
+interface IPayment {
+    id: number;
+    sum: number;
+    from: string;
+    to: string;
+    comment: string;
+}
+
+type paymentOmit = Omit<IPayment, 'comment'>;
+type fromAndTo = Pick<IPayment, 'from' | 'to'>;
+type getOnlyString = Extract<'from' | 'to' | paymentOmit, string>;
+type noGetOnlyString = Exclude<'from' | 'to' | paymentOmit, string>;
+
+// Example ReturnType
+class User66 {
+    constructor(id: number, name: string) {}
+}
+
+function getData66(id: number): User66 {
+    return new User66(id, 'Petya');
+}
+
+type RT = ReturnType<typeof getData66>;
+type RT_1 = ReturnType<() => void>;
+type RT_2 = ReturnType<<T>() => T>;
+type RT_3 = ReturnType<<T extends string>() => T>;
+
+type PT = Parameters<typeof getData66>;
+type PT_get = Parameters<typeof getData66>[0];
+
+type CP = ConstructorParameters<typeof User66>;
+
+// EXAMPLE Awaited
+type A_1 = Awaited<Promise<string>>;
+type A_2 = Awaited<Promise<Promise<Promise<Promise<Promise<string>>>>>>;
+
+interface IMenu {
+    name: string;
+    url: string;
+}
+
+// async function getMenu(): Promise<IMenu[]> {
+//     return [{ name: 'Analytics', url: './analytics/' }];
+// }
+
+// type R = ReturnType<typeof getMenu>;
+
+// async function getArray<T>(x: T): Promise<Awaited<T>[]> {
+//     return [await x];   
+// }
+
+// console.log(getArray([1,4,7,10,30]));
+
+// EXAMPLE for DECORATORS
+interface IUserService {
+    users: number;
+    getUserInDB(): number;
+}
+
+class UserServiceClass implements IUserService {
+    users: number = 1000;
+
+    getUserInDB(): number {
+        return this.users;
+    }
+}
+
+function nullUsers(obj: IUserService) {
+    obj.users = 0;
+    return obj;
+}
+
+function logUsers(obj: IUserService) {
+    console.log('Users: ' + obj.users);
+    return obj;
+}
+
+
+console.log(new UserServiceClass().getUserInDB());
+console.log(nullUsers(new UserServiceClass()).getUserInDB());
+console.log(logUsers(nullUsers(new UserServiceClass())).getUserInDB());
+console.log(nullUsers(logUsers(new UserServiceClass())).getUserInDB());
+
+// EXAMPLE Decorator for Class
+interface IUserService1 {
+    users: number;
+    getUserInDB(): number;
+}
+
+// @nullUsersDec
+// @threeUserAdvance
+// @setUsers(7)
+log()
+// @setUsers(7)
+class UserServiceClass1 implements IUserService {
+    users: number = 1000;
+
+    getUserInDB(): number {
+        return this.users;
+    }
+}
+
+function nullUsersDec(target: Function) {
+    target.prototype.users = 0;
+}
+
+function threeUserAdvance<T extends {new(...args:any[]):{}}>(constructor:T) {
+    return class extends constructor {
+        users = 3;
+    }
+}
+
+console.log(new UserServiceClass1().getUserInDB());
+
+// EXAMPLE Decorator of Fabric
+function setUsers(users: number) {
+    return (target: Function) => {
+        target.prototype.users = users;
+    }
+}
+
+function log() {
+    console.log('log init');
+    return (target: Function) => {
+        console.log('log run');
+        console.log(target);
+    }
+}
+
+// EXAMPLE Decotaror for method
+interface IUserService2 {
+    users: number;
+    getUserInDB(): number;
+}
+
+class UserService2 implements IUserService {
+    users: number = 2000;
+
+    // @Log()
+    getUserInDB(): number {
+        return this.users;
+        // throw new Error('Error for User.');
+    }
+}
+
+function Log (
+    target: object, 
+    propertyKey: string, 
+    descriptor: TypedPropertyDescriptor<(...args: any[])=> any | void>) {
+        console.log(target);        
+        console.log(propertyKey);        
+        console.log(descriptor);        
+        descriptor.value = () => {
+            console.log('No error.');
+        }
+}
+
+console.log(new UserService2().getUserInDB());
+console.log(Log({}, 'getUserInDB', {} as TypedPropertyDescriptor<(...args: any[])=> any>));

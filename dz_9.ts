@@ -16,7 +16,12 @@ const dataS = [
 
 function sortData<T extends { id: number }>(data: T[], order: 'asc' | 'desc' = 'asc'): T[] {
     return data.slice().sort((a, b) => 
-        order === 'asc' ? a.id - b.id : b.id - a.id
+
+		// console.log(a.id),
+
+		// if (typeof a.id == "number") {
+	        order === 'asc' ? a.id - b.id : b.id - a.id
+		// }
     );
 }
 

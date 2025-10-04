@@ -12,6 +12,7 @@
     "types": [],
     // For nodejs:
     // "lib": ["esnext"],
+    // "lib": ["ES2015"],
     // "types": ["node"],
     // and npm install -D @types/node
 
@@ -19,7 +20,7 @@
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
-
+    // "experimentalDecorators": true,
     // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
